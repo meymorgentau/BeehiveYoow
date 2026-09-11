@@ -929,11 +929,11 @@ PlayerSettings:
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
   enableDirectStorage: 0
-  cloudProjectId: 
+  cloudProjectId: ef97a2c1-3aa9-4de3-a365-39d8b7f01b75
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: "\u041F\u0447\u0435\u043B\u044B\u041D\u043E\u041D\u0435\u0422\u043E\u0447\u043D\u043E"
+  organizationId: grvitavi
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
