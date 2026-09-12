@@ -9,6 +9,7 @@ public class FlowerSpawner : MonoBehaviour
     [Header("Terrain Settings")]
     [SerializeField] private Terrain terrain;
     [SerializeField] private float minimumHeight = 4.5f;
+    [SerializeField] private float waterLevel = 5f;
     [SerializeField] private float groundOffset = 0.02f;
 
     private void Start()
@@ -32,6 +33,9 @@ public class FlowerSpawner : MonoBehaviour
             float groundY = terrain.SampleHeight(samplePosition) + terrainPosition.y;
 
             if (groundY < minimumHeight)
+                continue;
+
+            if (groundY <= waterLevel)
                 continue;
 
             GameObject flower = Instantiate(

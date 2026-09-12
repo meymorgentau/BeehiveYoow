@@ -1130,6 +1130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5059987917169915044}
   - component: {fileID: 1234086731303320234}
+  - component: {fileID: 4944515102497164396}
   m_Layer: 0
   m_Name: Flower
   m_TagString: Untagged
@@ -1184,6 +1185,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8, y: 1.62, z: 0.8}
   m_Center: {x: 0, y: 0.2, z: 0}
+--- !u!114 &4944515102497164396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8288882400307509353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04fb9f99bc2fe24fad0dcfb63e93368, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Flower
+  maximumPollen: 100
+  currentPollen: 100
+  regenerationSpeed: 5
 --- !u!1 &8854627285374579766
 GameObject:
   m_ObjectHideFlags: 0
