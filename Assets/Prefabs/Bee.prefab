@@ -130,3 +130,6 @@ MonoBehaviour:
   maxHeight: 10
   targetChangeDistance: 1
   searchRadius: 10
+  flowerSearchRadius: 15
+  flowerSearchInterval: 1
+  flowerLandingHeight: 1

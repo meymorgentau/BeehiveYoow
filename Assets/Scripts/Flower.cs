@@ -5,7 +5,7 @@ public class Flower : MonoBehaviour
     [Header("Pollen Settings")]
     [SerializeField] private float maximumPollen = 100f;
     [SerializeField] private float currentPollen = 100f;
-    [SerializeField] private float regenerationSpeed = 5f;
+    [SerializeField] private float regenerationSpeed = 0.5f;
 
     private void Update()
     {
