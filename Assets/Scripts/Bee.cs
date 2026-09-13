@@ -42,6 +42,7 @@ public class Bee : MonoBehaviour
         new Dictionary<Transform, Bee>();
 
     private BeeMemory memory;
+    private Hive hive;
 
     private Transform exitPoint;
     private Transform unloadPoint;
@@ -89,6 +90,8 @@ public class Bee : MonoBehaviour
     private void Start()
     {
         memory = GetComponent<BeeMemory>();
+
+        hive = FindFirstObjectByType<Hive>();
 
         flightHeight = Random.Range(minHeight, maxHeight);
 
@@ -436,6 +439,11 @@ public class Bee : MonoBehaviour
 
         if (unloadTimer > 0f)
             return;
+
+        if (hive != null)
+        {
+            hive.AddPollen(carriedPollen);
+        }
 
         carriedPollen = 0f;
         unloadingPollen = false;
