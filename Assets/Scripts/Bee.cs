@@ -40,11 +40,14 @@ public class Bee : MonoBehaviour
     private static readonly Dictionary<Transform, Bee> occupiedFlowers =
         new Dictionary<Transform, Bee>();
 
+    private BeeMemory memory;
+
     private Transform exitPoint;
 
     private bool hasLeftHive = false;
     private bool returningToHive = false;
     private bool unloadingPollen = false;
+    private bool dancePaused = false;
 
     private Vector3 targetPosition;
     private float flightHeight;
@@ -64,8 +67,20 @@ public class Bee : MonoBehaviour
         exitPoint = point;
     }
 
+    public bool HasLeftHive()
+    {
+        return hasLeftHive;
+    }
+
+    public void SetDancePaused(bool paused)
+    {
+        dancePaused = paused;
+    }
+
     private void Start()
     {
+        memory = GetComponent<BeeMemory>();
+
         flightHeight = Random.Range(minHeight, maxHeight);
 
         UpdateDebugInformation();
@@ -74,6 +89,9 @@ public class Bee : MonoBehaviour
     private void Update()
     {
         UpdateDebugInformation();
+
+        if (dancePaused)
+            return;
 
         if (!hasLeftHive)
         {
@@ -286,7 +304,16 @@ public class Bee : MonoBehaviour
             );
 
             flower.TakePollen(collectedAmount);
+
             carriedPollen += collectedAmount;
+
+            if (memory != null)
+            {
+                memory.RememberFlower(
+                    targetFlower,
+                    flower.GetPollen()
+                );
+            }
         }
 
         ReleaseFlower();
@@ -374,7 +401,11 @@ public class Bee : MonoBehaviour
             pollenPercentage = 0f;
         }
 
-        if (unloadingPollen)
+        if (dancePaused)
+        {
+            currentState = "Общение";
+        }
+        else if (unloadingPollen)
         {
             currentState = "Выгрузка пыльцы";
         }

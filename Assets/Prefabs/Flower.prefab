@@ -1197,9 +1197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04fb9f99bc2fe24fad0dcfb63e93368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Flower
-  maximumPollen: 100
-  currentPollen: 100
-  regenerationSpeed: 5
+  maximumPollen: 50
+  currentPollen: 50
+  regenerationSpeed: 1
 --- !u!1 &8854627285374579766
 GameObject:
   m_ObjectHideFlags: 0

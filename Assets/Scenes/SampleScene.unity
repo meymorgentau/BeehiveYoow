@@ -2359,7 +2359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeeSpawner
   beePrefab: {fileID: 2114774638388112697, guid: ef0a360456e861c45831f11f000b4516, type: 3}
-  beeCount: 25
+  beeCount: 50
   spawnPoint: {fileID: 40027734}
   spawnRadius: 0.5
   exitPoint: {fileID: 1511980900}

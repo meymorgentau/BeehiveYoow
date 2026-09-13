@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 7209566365257407474}
   - component: {fileID: 5362630010005522543}
   - component: {fileID: 8230786126561184568}
+  - component: {fileID: 8145716726085826336}
+  - component: {fileID: 2287479778541162999}
   m_Layer: 0
   m_Name: Bee
   m_TagString: Untagged
@@ -133,3 +135,40 @@ MonoBehaviour:
   flowerSearchRadius: 15
   flowerSearchInterval: 1
   flowerLandingHeight: 1
+  pollenCapacity: 50
+  pollenPerVisit: 20
+  pollenCollectionTime: 3
+  hiveDistance: 0.3
+  unloadTime: 10
+  currentPollen: 0
+  pollenPercentage: 0
+  currentState: 
+--- !u!114 &8145716726085826336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114774638388112697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f5e60d208610004dbe7817b790e871d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeeMemory
+  knownFlowers: []
+--- !u!114 &2287479778541162999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114774638388112697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cae0ad1af4fd9a44e880369f44d29ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeeDance
+  interactionRadius: 2
+  danceDuration: 1.5
+  danceSpeed: 6
+  danceDistance: 0.3
