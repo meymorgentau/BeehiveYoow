@@ -17,6 +17,7 @@ public class Bee : MonoBehaviour
     [SerializeField] private float flowerSearchRadius = 15f;
     [SerializeField] private float flowerSearchInterval = 1f;
     [SerializeField] private float flowerLandingHeight = 0.8f;
+    [SerializeField] private float flowerLandingDistance = 0.15f;
 
     [Header("Сбор пыльцы")]
     [SerializeField] private float pollenCapacity = 50f;
@@ -134,7 +135,7 @@ public class Bee : MonoBehaviour
         }
 
         if (targetFlower != null &&
-            Vector3.Distance(transform.position, targetPosition) <= targetChangeDistance)
+            Vector3.Distance(transform.position, targetPosition) <= flowerLandingDistance)
         {
             StartPollenCollection();
         }
