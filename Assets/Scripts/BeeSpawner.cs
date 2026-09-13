@@ -12,6 +12,7 @@ public class BeeSpawner : MonoBehaviour
 
     [Header("Hive Settings")]
     [SerializeField] private Transform exitPoint;
+    [SerializeField] private Transform unloadPoint;
 
     private void Start()
     {
@@ -22,7 +23,8 @@ public class BeeSpawner : MonoBehaviour
     {
         for (int i = 0; i < beeCount; i++)
         {
-            Vector3 spawnPosition = spawnPoint.position + Random.insideUnitSphere * spawnRadius;
+            Vector3 spawnPosition = spawnPoint.position +
+                                    Random.insideUnitSphere * spawnRadius;
 
             Bee bee = Instantiate(
                 beePrefab,
@@ -31,8 +33,11 @@ public class BeeSpawner : MonoBehaviour
                 transform
             ).GetComponent<Bee>();
 
-            bee.transform.localScale = beePrefab.transform.localScale / transform.localScale.x;
+            bee.transform.localScale =
+                beePrefab.transform.localScale / transform.localScale.x;
+
             bee.SetExitPoint(exitPoint);
+            bee.SetUnloadPoint(unloadPoint);
         }
     }
 }

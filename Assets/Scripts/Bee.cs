@@ -4,38 +4,38 @@ using UnityEngine.AI;
 
 public class Bee : MonoBehaviour
 {
-    [Header("Настройки полёта")]
+    [Header("Flight Settings")]
     [SerializeField] private float flightSpeed = 2f;
 
-    [Header("Свободный полёт")]
+    [Header("Free Flight")]
     [SerializeField] private float minHeight = 2f;
     [SerializeField] private float maxHeight = 5f;
     [SerializeField] private float targetChangeDistance = 1f;
     [SerializeField] private float searchRadius = 10f;
 
-    [Header("Поиск цветка")]
+    [Header("Flower Search")]
     [SerializeField] private float flowerSearchRadius = 15f;
     [SerializeField] private float flowerSearchInterval = 1f;
     [SerializeField] private float flowerLandingHeight = 0.8f;
     [SerializeField] private float flowerLandingDistance = 0.15f;
 
-    [Header("Сбор пыльцы")]
+    [Header("Pollen Collection")]
     [SerializeField] private float pollenCapacity = 50f;
     [SerializeField] private float pollenPerVisit = 20f;
     [SerializeField] private float pollenCollectionTime = 3f;
 
-    [Header("Улей")]
+    [Header("Hive")]
     [SerializeField] private float hiveDistance = 0.3f;
     [SerializeField] private float unloadTime = 2f;
 
-    [Header("Информация о пчеле")]
-    [InspectorName("Текущая пыльца")]
+    [Header("Bee Information")]
+    [InspectorName("Current Pollen")]
     [SerializeField] private float currentPollen;
 
-    [InspectorName("Заполнение (%)")]
+    [InspectorName("Fill (%)")]
     [SerializeField] private float pollenPercentage;
 
-    [InspectorName("Текущее состояние")]
+    [InspectorName("Current State")]
     [SerializeField] private string currentState;
 
     private static readonly Dictionary<Transform, Bee> occupiedFlowers =
@@ -44,10 +44,13 @@ public class Bee : MonoBehaviour
     private BeeMemory memory;
 
     private Transform exitPoint;
+    private Transform unloadPoint;
 
     private bool hasLeftHive = false;
     private bool returningToHive = false;
+    private bool returningToUnloadPoint = false;
     private bool unloadingPollen = false;
+    private bool leavingHive = false;
     private bool dancePaused = false;
 
     private Vector3 targetPosition;
@@ -66,6 +69,11 @@ public class Bee : MonoBehaviour
     public void SetExitPoint(Transform point)
     {
         exitPoint = point;
+    }
+
+    public void SetUnloadPoint(Transform point)
+    {
+        unloadPoint = point;
     }
 
     public bool HasLeftHive()
@@ -106,9 +114,21 @@ public class Bee : MonoBehaviour
             return;
         }
 
+        if (returningToUnloadPoint)
+        {
+            ReturnToUnloadPoint();
+            return;
+        }
+
         if (unloadingPollen)
         {
             UnloadPollen();
+            return;
+        }
+
+        if (leavingHive)
+        {
+            LeaveHiveAfterUnload();
             return;
         }
 
@@ -371,6 +391,40 @@ public class Bee : MonoBehaviour
         if (Vector3.Distance(transform.position, exitPoint.position) <= hiveDistance)
         {
             returningToHive = false;
+            returningToUnloadPoint = true;
+
+            if (unloadPoint != null)
+            {
+                targetPosition = unloadPoint.position;
+            }
+            else
+            {
+                returningToUnloadPoint = false;
+                unloadingPollen = true;
+                unloadTimer = unloadTime;
+            }
+        }
+    }
+
+    private void ReturnToUnloadPoint()
+    {
+        if (unloadPoint == null)
+        {
+            returningToUnloadPoint = false;
+            unloadingPollen = true;
+            unloadTimer = unloadTime;
+            return;
+        }
+
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            unloadPoint.position,
+            flightSpeed * Time.deltaTime
+        );
+
+        if (Vector3.Distance(transform.position, unloadPoint.position) <= hiveDistance)
+        {
+            returningToUnloadPoint = false;
             unloadingPollen = true;
             unloadTimer = unloadTime;
         }
@@ -386,7 +440,30 @@ public class Bee : MonoBehaviour
         carriedPollen = 0f;
         unloadingPollen = false;
 
-        ChooseNewTarget();
+        leavingHive = true;
+
+        if (exitPoint != null)
+        {
+            targetPosition = exitPoint.position;
+        }
+    }
+
+    private void LeaveHiveAfterUnload()
+    {
+        if (exitPoint == null)
+            return;
+
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            exitPoint.position,
+            flightSpeed * Time.deltaTime
+        );
+
+        if (Vector3.Distance(transform.position, exitPoint.position) <= hiveDistance)
+        {
+            leavingHive = false;
+            ChooseNewTarget();
+        }
     }
 
     private void UpdateDebugInformation()
@@ -404,31 +481,39 @@ public class Bee : MonoBehaviour
 
         if (dancePaused)
         {
-            currentState = "Общение";
+            currentState = "Communication";
         }
         else if (unloadingPollen)
         {
-            currentState = "Выгрузка пыльцы";
+            currentState = "Unloading pollen";
+        }
+        else if (returningToUnloadPoint)
+        {
+            currentState = "Flying to unload point";
+        }
+        else if (leavingHive)
+        {
+            currentState = "Leaving hive";
         }
         else if (returningToHive)
         {
-            currentState = "Возвращение в улей";
+            currentState = "Returning to hive";
         }
         else if (isCollectingPollen)
         {
-            currentState = "Сбор пыльцы";
+            currentState = "Collecting pollen";
         }
         else if (!hasLeftHive)
         {
-            currentState = "Вылет из улья";
+            currentState = "Leaving hive";
         }
         else if (targetFlower != null)
         {
-            currentState = "Полет к цветку";
+            currentState = "Flying to flower";
         }
         else
         {
-            currentState = "Поиск цветка";
+            currentState = "Searching for flower";
         }
     }
 
